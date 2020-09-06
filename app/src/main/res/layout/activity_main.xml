@@ -9,7 +9,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="곽간지"
+        android:text="곽간지bfffh"
+        android:textColor="#FF0000"
         />
 
 </LinearLayout>
