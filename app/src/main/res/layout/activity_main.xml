@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:text="곽간지bfffh"
         android:textColor="#FF0000"
+        android:background="#0000ff"
         />
 
 </LinearLayout>
