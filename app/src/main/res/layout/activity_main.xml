@@ -92,20 +92,17 @@
         android:orientation="horizontal"
         android:layout_marginTop="20dp"
         android:layout_margin="10dp">
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="120"
-            android:hint="주소를 입력하세요."
-            android:textSize="20dp"
-            android:id="@+id/edt_address"/>
 
         <Button
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/colorPrimaryDark"
-            android:drawableStart="@drawable/ic_search_black_24dp"
+            android:drawableRight="@drawable/ic_search_black_24dp"
+            android:text="내 주소 검색하기"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="20dp"
             android:id="@+id/btn_search2"/>
 
     </LinearLayout>
