@@ -5,30 +5,89 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#dcdcdc"
     tools:context=".MainActivity">
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="곽간지bfffh"
-        android:textColor="#FF0000"
-        android:background="#0000ff"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="niggggggga"/>
+        android:orientation="vertical"
+        android:background="#FFFFFF">
+        <TextView
+            android:layout_margin="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="시/도, 시/군/구를 선택해주세요."
+            android:textSize="40dp"
+            android:typeface="monospace"
+            android:textColor="#000000"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="시/도"
+                android:typeface="monospace"
+                android:textColor="#000000"
+                android:gravity="center_horizontal" />
+            <Spinner
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+            <TextView
+                android:textAlignment="center"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="시/군/구"
+                android:typeface="monospace"
+                android:textColor="#000000"
+                android:gravity="center_horizontal" />
+            <Spinner
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="선택"
+                android:background="#FFFFFF"
+                android:typeface="monospace"
+                android:textColor="#000000"/>
+        </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="niggggggga"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="niggggggga"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="niggggggga"/>
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:drawablePadding="4dp"
+            android:background="@drawable/btnbgcr"
+            android:id="@+id/gpsset"
+            android:src="@drawable/gpsbutton"/>
+
+        <!--
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:background="@drawable/btnbgcr"
+                android:drawableLeft="@drawable/gps"
+                android:drawablePadding="4dp"
+                android:text="현 위치로 주소 설정"
+                android:textColor="#000000"
+                android:textSize="20dp"
+                android:typeface="monospace" />
+                -->
+
+    </LinearLayout>
+
 </LinearLayout>
