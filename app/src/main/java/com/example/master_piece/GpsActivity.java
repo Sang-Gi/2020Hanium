@@ -89,14 +89,14 @@ public class GpsActivity extends FragmentActivity implements OnMapReadyCallback,
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         // Add a marker in Sydney and move the camera
-        LatLng Uni = new LatLng(37.210040, 126.975211);
+        LatLng Sansiche = new LatLng(37.35547275561809, 126.93616016561143);
         MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(Uni);
-        markerOptions.title("수원대학교");
-        markerOptions.snippet("IT대학");
+        markerOptions.position(Sansiche);
+        markerOptions.title("군포 시민체육광장");
+        //markerOptions.snippet("IT대학");
         mMap.addMarker(markerOptions);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Uni, 17.0f));
-       // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(37.210040, 126.975211), 17.0f)); //위치 확대가 제대로 안되서 고정좌표로 이동 및 확대(고침)
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Sansiche, 17.0f));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(37.358198065772974, 126.93285098093097), 16.0f)); //위치 확대가 제대로 안되서 고정좌표로 이동 및 확대(고침)
         // 인포 윈도우 클릭시 전화 걸기
         //  mMap.addMarker(new MarkerOptions().position(Uni).title("수원대 IT"));
         //        mMap.moveCamera(CameraUpdateFactory.newLatLng(Uni));
@@ -104,7 +104,7 @@ public class GpsActivity extends FragmentActivity implements OnMapReadyCallback,
             @Override
             public void onInfoWindowClick(Marker marker) {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:01067652279"));
+              //  intent.setData(Uri.parse("tel:01067652279"));
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
                 }

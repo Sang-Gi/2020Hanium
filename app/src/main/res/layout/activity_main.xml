@@ -47,49 +47,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_margin="10dp" >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="시/도"
-            android:textSize="15dp"
-            android:textColor="#000000" />
-
-        <Spinner
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="5dp"
-            android:id="@+id/adspin1"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="시/군/구"
-            android:textSize="15dp"
-            android:textColor="#000000" />
-
-        <Spinner
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="5dp"
-            android:id="@+id/adspin2"/>
-        <Button
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:background="@color/colorPrimaryDark"
-            android:drawableStart="@drawable/ic_search_black_24dp"
-            android:id="@+id/btn_search"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_marginTop="20dp"
         android:layout_margin="10dp">
 
@@ -120,8 +78,4 @@
         android:textSize="20dp"
         android:id="@+id/btn_locationset"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="niggggggga"/>
 </LinearLayout>
