@@ -43,6 +43,12 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
         <activity android:name=".GpsActivity" />
+        <activity android:name=".PostActivity" />
+        <activity android:name=".EditActivity"/>
+        <activity android:name=".SignupActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".MenuActivity"/>
+        <activity android:name=".info" android:label="시설 안내"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" /> <!--webview에서 불러올 url(http,https)를 사용하려면-->

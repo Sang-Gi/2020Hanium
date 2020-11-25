@@ -14,9 +14,4 @@
         android:layout_height="match_parent"
         tools:context=".GpsActivity"/>
 
-    <ImageButton
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:onClick="onLastLocationButtonClicked"
-        android:src="@drawable/gpss" />
 </FrameLayout>

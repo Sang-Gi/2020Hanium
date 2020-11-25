@@ -1,24 +1,21 @@
 package com.example.master_piece;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -26,11 +23,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
-
-import java.util.ArrayList;
-
-public class GpsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class GpsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     // 권한 체크 요청 코드 정의
     public static final int REQUEST_CODE_PERMISSIONS = 100;
@@ -48,31 +41,12 @@ public class GpsActivity extends FragmentActivity implements OnMapReadyCallback,
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         // GoogleAPIClient의 인스턴스 생성
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
-        }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-     SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-       // mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-    }
-
-    @Override
-    protected void onStart() {
-        mGoogleApiClient.connect();
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        mGoogleApiClient.disconnect();
-        super.onStop();
+        // mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
     }
 
     /**
@@ -90,80 +64,67 @@ public class GpsActivity extends FragmentActivity implements OnMapReadyCallback,
         mMap = googleMap;
         // Add a marker in Sydney and move the camera
         LatLng Sansiche = new LatLng(37.35547275561809, 126.93616016561143);
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(Sansiche);
-        markerOptions.title("군포 시민체육광장");
+        final MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(Sansiche).title("군포 시민체육광장");
+        final String sisul = markerOptions.getTitle().toString();
         //markerOptions.snippet("IT대학");
         mMap.addMarker(markerOptions);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Sansiche, 17.0f));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(37.358198065772974, 126.93285098093097), 16.0f)); //위치 확대가 제대로 안되서 고정좌표로 이동 및 확대(고침)
+        //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(37.358198065772974, 126.93285098093097), 16.0f)); //위치 확대가 제대로 안되서 고정좌표로 이동 및 확대(고침)
         // 인포 윈도우 클릭시 전화 걸기
         //  mMap.addMarker(new MarkerOptions().position(Uni).title("수원대 IT"));
         //        mMap.moveCamera(CameraUpdateFactory.newLatLng(Uni));
        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                Intent intent = new Intent(Intent.ACTION_DIAL);
+                Intent mainIntent = new Intent(GpsActivity.this, MenuActivity.class);
+                mainIntent.putExtra("sisul", sisul);
+                GpsActivity.this.startActivity(mainIntent);
               //  intent.setData(Uri.parse("tel:01067652279"));
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent);
+                if (mainIntent.resolveActivity(getPackageManager()) != null) {
                 }
             }
         }); //전화 받는 화면으로 넘기기 // 메인메뉴로 넘기기 할때 응용
+      if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+          googleMap.setMyLocationEnabled(true);
+      } else {
+          checkLocationPermissionWithRationale();
+      }
+  }
+
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+
+    private void checkLocationPermissionWithRationale() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                new AlertDialog.Builder(this)
+                        .setTitle("위치정보")
+                        .setMessage("이 앱을 사용하기 위해서는 위치정보에 접근이 필요합니다. 위치정보 접근을 허용하여 주세요.")
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                ActivityCompat.requestPermissions(GpsActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
+                            }
+                        }).create().show();
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
+            }
+        }
     }
 
-
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case REQUEST_CODE_PERMISSIONS:
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "권한 체크 거부 됨", Toast.LENGTH_SHORT).show();
+            case MY_PERMISSIONS_REQUEST_LOCATION: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                        mMap.setMyLocationEnabled(true);
+                    }
+                } else {
+                    Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show();
                 }
                 return;
-        }
-
-    }
-
-
-    public void onLastLocationButtonClicked(View view) {
-        // 권한 체크 // 마지막 위치정보를 확인하는데 성공하면 리스너가 동작 //오류나면 ALT+ENTER로 퍼미션 체크
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE_PERMISSIONS);
-            return;
-        }
-        mFusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                if (location != null) {
-                    // 현재 위치
-                    LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
-
-                    MarkerOptions markerOptions = new MarkerOptions();
-                    markerOptions.position(myLocation);
-                    markerOptions.title("현재 위치");
-                    mMap.addMarker(markerOptions);
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 17.0f));
-
-                }
             }
-        });
-    }
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull com.google.android.gms.common.ConnectionResult connectionResult) {
-
+        }
     }
 }
